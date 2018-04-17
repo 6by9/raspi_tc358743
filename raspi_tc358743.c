@@ -633,12 +633,17 @@ static void encoder_buffer_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buf
          vcos_log_error("Failed to write buffer data (%d from %d)- aborting", bytes_written, buffer->length);
       }
 
-      mmal_buffer_header_release(buffer);
-      status = mmal_port_send_buffer(port, buffer);
-      if(status != MMAL_SUCCESS)
+      if (port->is_enabled)
       {
-         vcos_log_error("mmal_port_send_buffer failed on buffer %p, status %d", buffer, status);
+        status = mmal_port_send_buffer(port, buffer);
+        if(status != MMAL_SUCCESS)
+        {
+           vcos_log_error("mmal_port_send_buffer failed on buffer %p, status %d", buffer, status);
+        }
       }
+      else
+        mmal_buffer_header_release(buffer);
+
    }
 }
 
