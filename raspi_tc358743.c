@@ -85,7 +85,7 @@ struct sensor_regs {
 
 #define I2C_ADDR 0x0F
 
-#define CSI_IMAGE_ID 0x24
+#define CSI_IMAGE_ID 0x34 //USE 0x34 FOR TOP FIELD, OR 0x35 FOR BOTTOM FIELD IN !CODECSIDEINFO BUFFER
 
 void signal_callback_handler(int);
 
@@ -500,6 +500,15 @@ void start_camera_streaming(int fd)
       r0148 = ENABLE_DATALANE_1;
       r0500 = 0xA3008082;
       vcos_log_error("Selected 720p+ registers");
+   }
+
+   // Read video input format (progressive or interlaced)
+   int ret;
+   ret = i2c_rd8(fd, VI_STATUS1);
+   if(ret & MASK_S_V_INTERLACE){
+      printf("Video is interlaced!\n");
+   }else{
+      printf("Video is progressive!\n");
    }
 
    struct cmds_t cmds[] = 
