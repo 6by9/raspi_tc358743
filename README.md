@@ -1,3 +1,6 @@
+**DEPRECATED
+This code is retained provide the history, however the preferred way of interfacing to the TC358743 is now via V4L2 and the bcm2835_unicam/tc358743 subdevice drivers.**
+
 Raspi_tc358743: An example app that controls a Toshiba TC358743 HDMI
 to CSI-2 bridge chip, and receives the incoming data over CSI-2 on
 a Raspberry Pi.
